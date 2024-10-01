@@ -1,8 +1,8 @@
 package routes
 
 import (
-	swagger "github.com/arsmn/fiber-swagger/v2"
 	"github.com/gofiber/fiber/v2"
+	swagger "github.com/gofiber/swagger"
 
 	// Controllers
 	ctl "skiza/api/controllers"
@@ -15,7 +15,7 @@ func SetupRoutes(app *fiber.App) {
 
 	v1 := api.Group("/v1")
 
-	v1.Use("/docs", swagger.Handler)
+	v1.Use("/docs", swagger.HandlerDefault)
 
 	v1.Get("/", func(c *fiber.Ctx) error {
 		return c.JSON(fiber.Map{
