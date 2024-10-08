@@ -19,7 +19,7 @@ function Nav() {
           </svg>
           <span>Skiza</span>
         </a>
-        <span>Callback Listener and Pusher</span>
+        <span>Postback Receiver and Stream</span>
       </div>
     </nav>
   );
