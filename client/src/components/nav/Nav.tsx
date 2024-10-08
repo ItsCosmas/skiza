@@ -2,7 +2,7 @@ function Nav() {
   return (
     <nav className="navbar bg-base-100 flex justify-center">
       <div className="flex flex-col h-10 items-center prose">
-        <a className="link no-underline text-xl font-bold flex justify-center">
+        <a className="link no-underline text-xl font-bold flex justify-center cursor-pointer">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
