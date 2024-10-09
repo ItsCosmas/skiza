@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { useStore } from "store";
 
 function Nav() {
-  const [isConnected, setIsConnected] = useState(false);
+  const { updateShouldConnect, isConnected } = useStore();
 
   const [switchHovered, setSwitchHovered] = useState(false);
   const [wasMouseOutside, setWasMouseOutside] = useState(true); // Tracks if the mouse was outside before entering
@@ -20,7 +21,7 @@ function Nav() {
   };
 
   const handleConnectionSwitch = () => {
-    setIsConnected(!isConnected);
+    updateShouldConnect(!isConnected);
     setWasMouseOutside(true); // Reset mouse state when connection changes
     setSwitchHovered(false); // Reset hover state when connection changes
     // Trigger Creation of WebSocket Connection
