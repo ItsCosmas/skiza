@@ -1,7 +1,20 @@
+import { useState } from "react";
+
 function Nav() {
+  const [isConnected, setIsConnected] = useState(false);
+
+  const handleConnectionSwitch = () => {
+    if (isConnected) {
+      setIsConnected(false);
+    } else {
+      setIsConnected(true);
+    }
+    // Trigger Creation of WebSocket Connection
+  };
+
   return (
-    <nav className="navbar bg-base-100 flex justify-center">
-      <div className="flex flex-col h-10 items-center prose">
+    <nav className="navbar justify-between bg-base-100">
+      <div className="shrink flex-col h-10 items-start prose">
         <a className="link no-underline text-xl font-bold flex justify-center cursor-pointer">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -19,7 +32,45 @@ function Nav() {
           </svg>
           <span>Skiza</span>
         </a>
-        <span>Postback Receiver and Stream</span>
+        <span className="mt-2">Postback Receiver and Stream</span>
+      </div>
+      <div className="shrink">
+        {isConnected && (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="green"
+            className="size-6"
+          >
+            <path
+              fillRule="evenodd"
+              d="M14.615 1.595a.75.75 0 0 1 .359.852L12.982 9.75h7.268a.75.75 0 0 1 .548 1.262l-10.5 11.25a.75.75 0 0 1-1.272-.71l1.992-7.302H3.75a.75.75 0 0 1-.548-1.262l10.5-11.25a.75.75 0 0 1 .913-.143Z"
+              clipRule="evenodd"
+            />
+          </svg>
+        )}
+
+        {!isConnected && (
+          <>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="red"
+              className="size-6"
+            >
+              <path d="m20.798 11.012-3.188 3.416L9.462 6.28l4.24-4.542a.75.75 0 0 1 1.272.71L12.982 9.75h7.268a.75.75 0 0 1 .548 1.262ZM3.202 12.988 6.39 9.572l8.148 8.148-4.24 4.542a.75.75 0 0 1-1.272-.71l1.992-7.302H3.75a.75.75 0 0 1-.548-1.262ZM3.53 2.47a.75.75 0 0 0-1.06 1.06l18 18a.75.75 0 1 0 1.06-1.06l-18-18Z" />
+            </svg>
+          </>
+        )}
+        <span className="ml-2">
+          {isConnected ? "Connected" : "Disconnected"}
+        </span>
+        <input
+          type="checkbox"
+          className="ml-4 toggle toggle-success"
+          checked={isConnected}
+          onClick={handleConnectionSwitch}
+        />
       </div>
     </nav>
   );

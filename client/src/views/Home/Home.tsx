@@ -3,7 +3,7 @@ import Table from "components/table/Table";
 
 function Home() {
   return (
-    <div>
+    <div className="container mx-auto">
       <Nav />
       <main className="container mx-auto mt-6">
         <div className="divider"></div>

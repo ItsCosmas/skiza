@@ -28,8 +28,10 @@ const Table = () => {
           {/* row 1 */}
           <tr>
             <td>Safaricom API</td>
-            <td>Some JSON</td>
-            <td className="flex">
+            <td>
+              Some JSON HSHSJSKD HSJDSKDKL JSKSSL SKSOSPS SKSOSP ISOSOPS ...
+            </td>
+            <td className="flex justify-normal">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -57,7 +59,7 @@ const Table = () => {
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="size-6 cursor-pointer"
+                className="size-6 cursor-pointer ml-6"
               >
                 <path
                   strokeLinecap="round"
