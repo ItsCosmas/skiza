@@ -3,12 +3,26 @@ import { useState } from "react";
 function Nav() {
   const [isConnected, setIsConnected] = useState(false);
 
-  const handleConnectionSwitch = () => {
-    if (isConnected) {
-      setIsConnected(false);
-    } else {
-      setIsConnected(true);
+  const [switchHovered, setSwitchHovered] = useState(false);
+  const [wasMouseOutside, setWasMouseOutside] = useState(true); // Tracks if the mouse was outside before entering
+
+  const handleConnectionSwitchHover = () => {
+    // Only toggle hover state if the connection is active and mouse was previously outside
+    if (isConnected && wasMouseOutside) {
+      setSwitchHovered(!switchHovered);
+      setWasMouseOutside(false); // Set to false once the mouse enters
     }
+  };
+
+  const handleMouseLeave = () => {
+    setWasMouseOutside(true); // Reset when the mouse leaves
+    setSwitchHovered(false); // Reset hover state when mouse leaves
+  };
+
+  const handleConnectionSwitch = () => {
+    setIsConnected(!isConnected);
+    setWasMouseOutside(true); // Reset mouse state when connection changes
+    setSwitchHovered(false); // Reset hover state when connection changes
     // Trigger Creation of WebSocket Connection
   };
 
@@ -67,9 +81,14 @@ function Nav() {
         </span>
         <input
           type="checkbox"
-          className="ml-4 toggle toggle-success"
+          // className="ml-4 toggle toggle-success"
+          className={`ml-4 toggle ${
+            switchHovered ? "toggle-error" : "toggle-success"
+          }`}
           checked={isConnected}
-          onClick={handleConnectionSwitch}
+          onChange={handleConnectionSwitch}
+          onMouseEnter={handleConnectionSwitchHover}
+          onMouseLeave={handleMouseLeave} // Handle mouse leave
         />
       </div>
     </nav>
