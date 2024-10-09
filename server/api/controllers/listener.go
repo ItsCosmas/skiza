@@ -2,13 +2,16 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
-
-	"skiza/api/schema"
 
 	"github.com/gofiber/fiber/v2"
 )
+
+// BookObject is the Structure Of The Book
+type ExternalResponse struct {
+	ResponseBody string `json:"responseBody"`
+	SourceIP     string `json:"sourceIP"`
+}
 
 // ListenerController godoc
 //
@@ -24,7 +27,7 @@ func ListenerController(c *fiber.Ctx, broadcast chan<- string) error {
 	responseBody := string(c.Body())
 	sourceIP := c.IP() // Get the source IP
 
-	response := schema.ExternalResponse{
+	response := ExternalResponse{
 		ResponseBody: responseBody,
 		SourceIP:     sourceIP,
 	}
@@ -35,18 +38,11 @@ func ListenerController(c *fiber.Ctx, broadcast chan<- string) error {
 		return c.Status(http.StatusInternalServerError).SendString("Error encoding response")
 	}
 
-	// return c.JSON(httpResponse)
-
-	c.JSON(httpResponse)
-
 	// Broadcast the ExternalResponse in a goroutine
 	go func() {
-		// Optionally log the body of the request
-		fmt.Println(responseBody)
-
 		// Broadcast the ExternalResponse to all WebSocket clients
 		broadcast <- string(jsonResponse)
 	}()
 
-	return nil // Return nil since we already sent the response
+	return c.JSON(httpResponse)
 }
