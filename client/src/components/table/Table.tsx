@@ -1,6 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useWebSocket from "react-use-websocket";
 
 import Modal from "components/modal/Modal";
+
+const WS_URL = "ws://127.0.0.1:8000/api/v1/ws";
+
+const READY_STATE_OPEN = 1;
 
 const Table = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -11,6 +16,35 @@ const Table = () => {
 
   const handleModalClose = () => {
     setIsModalOpen(false);
+  };
+
+  const handleConnectWebSocket = () => {
+    console.log("Attempting to connect");
+  };
+
+  const [currentSocketUrl, setCurrentSocketUrl] = useState<string | null>(null);
+  const [messageHistory, setMessageHistory] = useState([]);
+  const { lastMessage, readyState, getWebSocket } = useWebSocket(
+    currentSocketUrl,
+    {
+      share: true,
+      shouldReconnect: () => false,
+    }
+  );
+
+  useEffect(() => {
+    lastMessage && setMessageHistory((prev) => prev.concat(lastMessage.data));
+  }, [lastMessage]);
+
+  const readyStateString: string = {
+    0: "CONNECTING",
+    1: "OPEN",
+    2: "CLOSING",
+    3: "CLOSED",
+  }[readyState as 0 | 1 | 2 | 3];
+
+  const connectWebSocket = () => {
+    setCurrentSocketUrl(WS_URL);
   };
 
   return (
@@ -39,7 +73,8 @@ const Table = () => {
                 strokeWidth={1.5}
                 stroke="currentColor"
                 className="size-6 cursor-pointer"
-                onClick={handleModalOpen}
+                // onClick={handleModalOpen}
+                onClick={connectWebSocket}
               >
                 <path
                   strokeLinecap="round"
