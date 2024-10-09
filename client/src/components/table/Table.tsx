@@ -18,23 +18,32 @@ const Table = () => {
     setIsModalOpen(false);
   };
 
-  const handleConnectWebSocket = () => {
+  const handleOpenWS = () => {
     console.log("Attempting to connect");
+    setShouldConnect(!shouldConnect); // Set to true to initiate connection
   };
 
-  const [currentSocketUrl, setCurrentSocketUrl] = useState<string | null>(null);
+  const [shouldConnect, setShouldConnect] = useState<boolean>(false);
   const [messageHistory, setMessageHistory] = useState([]);
   const { lastMessage, readyState, getWebSocket } = useWebSocket(
-    currentSocketUrl,
+    WS_URL,
     {
       share: true,
-      shouldReconnect: () => false,
-    }
+      shouldReconnect: () => true,
+      onOpen: () => console.log("WebSocket connection opened!"),
+      onClose: () => console.log("WebSocket connection closed!"),
+      onError: (event) => console.error("WebSocket error:", event),
+      onMessage: (event) => console.log("Received message:", event.data),
+    },
+    shouldConnect // websocket switch
   );
 
   useEffect(() => {
-    lastMessage && setMessageHistory((prev) => prev.concat(lastMessage.data));
-  }, [lastMessage]);
+    if (readyState === READY_STATE_OPEN && lastMessage) {
+      setMessageHistory((prev) => prev.concat(lastMessage.data));
+      console.log("Message -> " + lastMessage.data);
+    }
+  }, [lastMessage, readyState]);
 
   const readyStateString: string = {
     0: "CONNECTING",
@@ -42,10 +51,6 @@ const Table = () => {
     2: "CLOSING",
     3: "CLOSED",
   }[readyState as 0 | 1 | 2 | 3];
-
-  const connectWebSocket = () => {
-    setCurrentSocketUrl(WS_URL);
-  };
 
   return (
     <div className="overflow-x-auto">
@@ -74,7 +79,7 @@ const Table = () => {
                 stroke="currentColor"
                 className="size-6 cursor-pointer"
                 // onClick={handleModalOpen}
-                onClick={connectWebSocket}
+                onClick={handleOpenWS}
               >
                 <path
                   strokeLinecap="round"
