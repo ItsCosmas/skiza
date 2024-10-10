@@ -1,5 +1,3 @@
----
-
 ## Running and Developing locally
 
 1. Create `.env` at server root, i.e.
