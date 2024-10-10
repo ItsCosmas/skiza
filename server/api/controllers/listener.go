@@ -2,12 +2,13 @@ package controllers
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
 )
 
-// BookObject is the Structure Of The Book
+// ExternalResponse is the structure of the json message
 type ExternalResponse struct {
 	ResponseBody string `json:"responseBody"`
 	SourceIP     string `json:"sourceIP"`
@@ -41,8 +42,11 @@ func ListenerController(c *fiber.Ctx, broadcast chan<- string) error {
 	// Broadcast the ExternalResponse in a goroutine
 	go func() {
 		// Broadcast the ExternalResponse to all WebSocket clients
+		log.Println("Broadcast Sent")
 		broadcast <- string(jsonResponse)
 	}()
 
+	// Immediately return the HTTP response and execute the go routine after
+	log.Println("HTTP Response Sent")
 	return c.JSON(httpResponse)
 }

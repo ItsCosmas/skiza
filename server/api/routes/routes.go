@@ -33,10 +33,10 @@ func runHub() {
 		select {
 		case connection := <-register:
 			clients[connection] = &client{}
-			log.Println("connection registered")
+			log.Println("Connection Registered")
 
 		case message := <-broadcast:
-			log.Println("message received:", message)
+			log.Println("Message Received:", message)
 			// Send the message to all clients
 			for connection, c := range clients {
 				go func(connection *websocket.Conn, c *client) { // send to each client in parallel so we don't block on a slow client
@@ -60,7 +60,7 @@ func runHub() {
 			// Remove the client from the hub
 			delete(clients, connection)
 
-			log.Println("connection unregistered")
+			log.Println("Connection Unregistered")
 		}
 	}
 }
