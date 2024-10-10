@@ -10,15 +10,15 @@ const READY_STATE_OPEN = 1;
 
 const Table = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const {
-    shouldConnect,
-    messages,
-    addToMessages,
-    updateIsConnected,
-    isConnected,
-  } = useStore();
+  const [selectedSourceIP, setSelectedSourceIP] = useState<string>("");
+  const [selectedResponseBody, setSelectedResponseBody] = useState<string>("");
 
-  const handleModalOpen = () => {
+  const { shouldConnect, messages, addToMessages, updateIsConnected } =
+    useStore();
+
+  const handleModalOpen = (sourceIP: string, responseBody: string) => {
+    setSelectedSourceIP(sourceIP);
+    setSelectedResponseBody(responseBody);
     setIsModalOpen(true);
   };
 
@@ -32,10 +32,13 @@ const Table = () => {
       share: true,
       shouldReconnect: () => true,
       onOpen: () => {
-        console.log("WebSocket connection opened!"),
-          updateIsConnected(!isConnected);
+        console.log("WebSocket connection opened!");
+        updateIsConnected(true);
       },
-      onClose: () => console.log("WebSocket connection closed!"),
+      onClose: () => {
+        console.log("WebSocket connection closed!");
+        updateIsConnected(false);
+      },
       onError: (event) => console.error("WebSocket error:", event),
       onMessage: (event) => console.log("Received message:", event.data),
     },
@@ -82,7 +85,7 @@ const Table = () => {
                     strokeWidth={1.5}
                     stroke="currentColor"
                     className="size-6 cursor-pointer"
-                    onClick={handleModalOpen}
+                    onClick={() => handleModalOpen(source, body)}
                   >
                     <path
                       strokeLinecap="round"
@@ -118,7 +121,12 @@ const Table = () => {
       </table>
 
       {/* Reusable Modal Component */}
-      <Modal isOpen={isModalOpen} onClose={handleModalClose} />
+      <Modal
+        isOpen={isModalOpen}
+        onClose={handleModalClose}
+        sourceIP={selectedSourceIP}
+        responseBody={selectedResponseBody}
+      />
     </div>
   );
 };
