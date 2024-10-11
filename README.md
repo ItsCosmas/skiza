@@ -2,7 +2,7 @@
 
 - A number of scenarios with 3rd party integrations necessiate the need for a web hook to receive response.
 - Case where a certain action is not completed immediately or is asynchronous, some partners opt to send a final response to a web hook.
-- For example (Safaricom Daraja)[https://developer.safaricom.co.ke/] sends the final transaction status and info as a postback/callback to a designated http endpoint, therefore in development scenarios debugging can be hard as you need to create an internet reachable http endpoint where you'll receive your postbacks.
+- For example [Safaricom Daraja](https://developer.safaricom.co.ke/) sends the final transaction status and info as a postback/callback to a designated http endpoint, therefore in development scenarios debugging can be hard as you need to create an internet reachable http endpoint where you'll receive your postbacks.
 - This simple tools helps you t-shoot this scenario by providing a convenient way for you to quickly receive this postbacks.
 - Have your 3rd party send the postbacks to this app via the endpoint `/api/v1/listener` and they are streamed real-time to a friendly web UI where you can inspect and t-shoot.
 
@@ -34,6 +34,7 @@ go run main.go # Run the go app
 
 # Terminal 2
 cd client # Navigate to the react app
+npm i # Install npm dependencies
 npm run dev  # Run the react app
 ```
 
