@@ -6,6 +6,8 @@
 - This simple tools helps you t-shoot this scenario by providing a convenient way for you to quickly receive this postbacks.
 - Have your 3rd party send the postbacks to this app via the endpoint `/api/v1/listener` and they are streamed real-time to a friendly web UI where you can inspect and t-shoot.
 
+![A Screenshot of the Running Frontend on Browser](https://github.com/ItsCosmas/skiza/blob/main/demo/webpage.png) <br />
+
 ## Running and Developing locally
 
 1. Create `.env` at server root, i.e.
@@ -42,7 +44,6 @@ npm run dev  # Run the react app
 ---
 
 ![A Screenshot of the Running Frontend and Backend on Terminal](https://github.com/ItsCosmas/skiza/blob/main/demo/terminal.png) <br />
-![A Screenshot of the Running Frontend on Browser](https://github.com/ItsCosmas/skiza/blob/main/demo/webpage.png) <br />
 
 ---
 
