@@ -19,7 +19,7 @@ cp server/.env.example server/.env
 2. Download Swag for generating docs
 
 ```sh
-go get -u github.com/swaggo/swag/cmd/swag
+go install github.com/swaggo/swag/cmd/swag@latest
 ```
 
 3. Run
