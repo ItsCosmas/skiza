@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	app "skiza/api"
+	"skiza/api"
 	"strings"
 )
 

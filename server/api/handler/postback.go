@@ -1,9 +1,8 @@
-package controllers
+package handler
 
 import (
 	"encoding/json"
 	"log"
-	"net/http"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -14,15 +13,15 @@ type ExternalResponse struct {
 	SourceIP     string `json:"sourceIP"`
 }
 
-// ListenerController godoc
+// PostbackListener godoc
 //
 //	@Summary		Listen for a callback
 //	@Description	Listen for a callback
 //	@Tags			Listener
 //	@Success		200	{object}	Response
 //	@Router			/listener [post]
-func ListenerController(c *fiber.Ctx, broadcast chan<- string) error {
-	httpResponse := HTTPResponse(http.StatusOK, "Callback Received", "Callback Body")
+func PostbackListener(c *fiber.Ctx, broadcaster func(string)) error {
+	httpResponse := HTTPResponse(fiber.StatusOK, "Callback Received", "Callback Body")
 
 	// Create an ExternalResponse object
 	responseBody := string(c.Body())
@@ -36,17 +35,17 @@ func ListenerController(c *fiber.Ctx, broadcast chan<- string) error {
 	// Convert ExternalResponse to JSON (byte slice)
 	jsonResponse, err := json.Marshal(response)
 	if err != nil {
-		return c.Status(http.StatusInternalServerError).SendString("Error encoding response")
+		return c.Status(fiber.StatusInternalServerError).SendString("Error encoding response")
 	}
 
 	// Broadcast the ExternalResponse in a goroutine
 	go func() {
 		// Broadcast the ExternalResponse to all WebSocket clients
 		log.Println("Broadcast Sent")
-		broadcast <- string(jsonResponse)
+		broadcaster(string(jsonResponse))
 	}()
 
-	// Immediately return the HTTP response and execute the go routine after
+	// Acknowledge the HTTP request
 	log.Println("HTTP Response Sent")
 	return c.JSON(httpResponse)
 }
