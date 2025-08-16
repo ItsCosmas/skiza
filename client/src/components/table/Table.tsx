@@ -50,7 +50,7 @@ const Table = () => {
       addToMessages(lastMessage.data);
       console.log("Message -> " + lastMessage.data);
     }
-  }, [lastMessage, readyState]);
+  }, [addToMessages, lastMessage, readyState]);
 
   return (
     <div className="overflow-x-auto">
@@ -75,8 +75,8 @@ const Table = () => {
 
             return (
               <tr key={index}>
-                <td>{source}</td> {/* Display the source IP */}
-                <td>{body}</td> {/* Display the response body */}
+                <td>{source}</td>
+                <td>{body}</td>
                 <td className="flex justify-normal">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
